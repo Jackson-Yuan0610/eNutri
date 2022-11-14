@@ -270,8 +270,8 @@ foreach ($_SESSION["cart_item"] as $item){
 	<td colspan="2" align="right"><b>Voucher:</b></td>
 
 	<td style="text-align:center;" colspan="2">
-		<label for="voucher">Choose a voucher:</label>
-		<select name="voucher" id="voucher">
+		<label for="voucher">Choose a voucher:</label></br>
+		<select name="voucher" id="voucher" value="asd">
 		<option value=None>None</option>
 		<?php 
 		$sql = "SELECT * FROM voucher";
@@ -302,11 +302,9 @@ foreach ($_SESSION["cart_item"] as $item){
 			location.href = "cart_action.php?voucher=" + x;
 		}
 		</script>
-		The voucher selected is: 
 			<?php
 			if (isset($_GET["voucher"])) {
 			$code = $_GET["voucher"];
-			echo $code;
 					$sql3 = "SELECT * FROM voucher WHERE voucher_code LIKE '%$code%' ";
 					$result3 = mysqli_query($conn, $sql3);
 								
@@ -322,7 +320,8 @@ foreach ($_SESSION["cart_item"] as $item){
 						}
 					}
 					else{
-						echo" Sorry, The code is invalid";
+						echo "<br>";
+						echo" Sorry, No voucher is applied.";
 						$voucher_disc = 0;
 						}
 			}
@@ -361,17 +360,33 @@ foreach ($_SESSION["cart_item"] as $item){
 
 <p style="margin: 15px;"><a href="cart_action.php?action=empty"><i class="fa fa-trash" style="font-size:24px"></i> Empty Cart</a></p>
 	<tr>
-	<td colspan="2" align="right"><p><b>Voucher Applied :</b></p></td>
-	<td style="text-align:center;" colspan="2"><strong><?php echo $code; ?></strong></td>
+	<td colspan="2" align="right"><p><b>Voucher Applied :</b></td>
+		<?php
+			if (isset($_GET["voucher"])) {?>
+			<td style="text-align:center;" colspan="2"><strong><?php echo $code; ?></strong></td>
+			<?php }
+			else{
+				echo"<b> None </b>";
+			}
+			?>
 	<!-- Total Price with Voucher Discount -->
-	<td colspan="2" align="right"><b>Total Price :</b></td>
-	<?php $total_price -= $voucher_disc; ?>
+	<td colspan="2" align="right"><p><b>Total Price :</b></td>
+		<?php
+			if (isset($_GET["voucher"])) {
+				$total_price -= $voucher_disc;
+			}
+		?>	
 	<td style="text-align:center;" colspan="2"><strong><?php echo "RM ".number_format($total_price, 2); ?></strong></td>
 	</tr>
-<p style="margin: 15px;"><a onclick="checkoutfunc()" href ="checkout.php"> Check Out</a></p>
+<p style="margin: 15px;"><a onclick="checkoutfunc()"><i class="fas fa-wallet" 	style="font-size:24px"></i> Check Out</a></p>
 <script>
 function checkoutfunc() {
-  confirm("Are you confirm to proceed checkout?");
+  let text ="Are you confirm to proceed checkout?";
+  if (confirm(text) == true) {
+	location.href = "checkout.php";
+  } else {
+	location.href = "cart_action.php?voucher=" + x;
+  }
 }
 </script>
 <?php
