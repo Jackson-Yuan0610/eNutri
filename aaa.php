@@ -72,17 +72,11 @@ switch($_GET["action"]) {
 	break;
 	
 	case "check":
-		if(!empty($_SESSION["cart_item"])) {
 			
-			$check=$_GET['voucher'];
-				echo "<h1>Welcome at Educative </h1>";
-			echo "<h1>Welcome at Educative </h1>";
-			if(isset($_GET['voucher'])){
-				echo $_GET['voucher'];
-			}
-			echo "<br><h1>Welcome at Educative </h1>";
+			$result = $_GET['data'];
+			echo $result;
 		
-		}
+	
 	break; 
 }
 }
@@ -198,162 +192,73 @@ else{
   </nav>
   <!-- Navbar -->
   
-  <!--Carousel Wrapper-->
-  <div id="carousel-example-1z" class="carousel slide carousel-fade pt-4" data-ride="carousel">
-
-    <!--Indicators-->
-    <ol class="carousel-indicators">
-      <li data-target="#carousel-example-1z" data-slide-to="0" class="active"></li>
-      <li data-target="#carousel-example-1z" data-slide-to="1" ></li>
-      <li data-target="#carousel-example-1z" data-slide-to="2"></li>
-    </ol>
-    <!--/.Indicators-->
-
-    <!--Slides-->
-    <div class="carousel-inner" role="listbox">
-
-      <!--First slide-->
-      <div class="carousel-item active">
-        <div class="view" style="background-image: url('img/slide/delivery.jpg'); background-repeat: no-repeat; background-size: cover;">
-
-          <!-- Mask & flexbox options-->
-          <div class="mask rgba-black-strong d-flex justify-content-center align-items-center">
-
-            <!-- Content -->
-            <div class="text-center white-text mx-5 wow fadeIn">
-              <h1 class="mb-4">
-                <strong>About Us</strong>
-              </h1>
-
-              <p>
-                <strong>eNutri-Canteen</strong>
-                <br><strong>An Integrated E-Canteen Food Ordering System</strong></br>
-                <strong>For you, For me, For us</strong>              
-			  </p>
-
-            </div>
-            <!-- Content -->
-
-          </div>
-          <!-- Mask & flexbox options-->
-
-        </div>
-      </div>
-      <!--/First slide-->
-
-      <!--Second slide-->
-      <div class="carousel-item">
-        <div class="view" style="background-image: url('img/slide/rating.png'); background-repeat: no-repeat; background-size: cover;">
-
-          <!-- Mask & flexbox options-->
-          <div class="mask rgba-black-strong d-flex justify-content-center align-items-center">
-
-            <!-- Content -->
-            <div class="text-center white-text mx-5 wow fadeIn">
-              <h1 class="mb-4">
-                <strong>Why Us</strong>
-              </h1>
-			  
-			  <p>
-                <strong>The best healthy food that we can prepare for everyone!</strong>
-              </p>
-
-
-
-            </div>
-            <!-- Content -->
-
-          </div>
-          <!-- Mask & flexbox options-->
-
-        </div>
-      </div>
-      <!--/Second slide-->
-
-      <!--Third slide-->
-      <div class="carousel-item">
-        <div class="view" style="background-image: url('https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/8-col/img%285%29.jpg'); background-repeat: no-repeat; background-size: cover;">
-
-          <!-- Mask & flexbox options-->
-          <div class="mask rgba-black-strong d-flex justify-content-center align-items-center">
-
-            <!-- Content -->
-            <div class="text-center white-text mx-5 wow fadeIn">
-              <h1 class="mb-4">
-                <strong>How It Works</strong>
-              </h1>
-			  
-			  <p>
-                <strong>mylokalFood</strong>
-              </p>
-			  
-			  <p class="mb-4 d-none d-md-block">
-                <strong>Is our First Choice !</strong>
-              </p>
-
-            </div>
-            <!-- Content -->
-
-          </div>
-          <!-- Mask & flexbox options-->
-
-        </div>
-      </div>
-      <!--/Third slide-->
-
-    </div>
-    <!--/.Slides-->
-
-    <!--Controls-->
-    <a class="carousel-control-prev" href="#carousel-example-1z" role="button" data-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carousel-example-1z" role="button" data-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
-    </a>
-    <!--/.Controls-->
-
-  </div>
-  <!--/.Carousel Wrapper-->
-  
  <main class="mt-5 pt-4">
     <div class="container wow fadeIn">
-	<label for="cars">Choose a car:</label>
-<select name="cars" id="cars">
-    <?php 
-		$sql = "SELECT * FROM voucher";
-		$result = mysqli_query($conn, $sql);
-					
-		if (mysqli_num_rows($result)> 0) {
-			//output data of each row
-			while($row = mysqli_fetch_assoc($result)) {
+	<br>
+	<br>
+	<label for="voucher">Choose a voucher:</label>
+	<select name="voucher" id="voucher">
+			<option value=None>None</option>
+		<?php 
+			$sql = "SELECT * FROM voucher";
+			$result = mysqli_query($conn, $sql);
+						
+			if (mysqli_num_rows($result)> 0) {
+				//output data of each row
+				while($row = mysqli_fetch_assoc($result)) {
+				?>
+					<option><?php echo $row['voucher_code']; ?></option>
+				<?php
+				}
+			}
+			else{
+				echo"Sorry, zero voucher found";
+				}		
 			?>
-				<option><?php echo $row['voucher_code']; ?></option>
+	</select>
+
+<p><span class="output"></span></p>
+<input type="button" onclick="getOption()" value="Check"> </button>
+
+<script type="text/javascript">
+    function getOption() {
+		
+        selectElement = document.querySelector('#voucher');
+        output = selectElement.value;
+        document.querySelector('.output').textContent = output;
+		var x = output;
+		location.href = "aaa.php?voucher=" + x;
+    }
+</script>
+The voucher selected is: 
+<?php
+if (isset($_GET["voucher"])) {
+ $code = $_GET["voucher"];
+ echo $code;
+ 		$sql3 = "SELECT * FROM voucher WHERE voucher_code LIKE '%$code%' ";
+		$result3 = mysqli_query($conn, $sql3);
+					
+		if (mysqli_num_rows($result3)> 0) {
+			//output data of each row
+			while($row = mysqli_fetch_assoc($result3)) {
+			?>
+				
+				<?php 
+				$voucher_disc = $row['voucher_price'];
+				?>
 			<?php
 			}
 		}
 		else{
-			echo"Sorry, zero voucher found";
-			}		
-		?>
-</select>
-<p> The value of the option selected is: 
-        <span class="output"></span>
-    </p>
-<input type="button" onclick="getOption()" value="Check"> </button>
-<script type="text/javascript">
-    function getOption() {
-		
-        selectElement = document.querySelector('#cars');
-        output = selectElement.value;
-        document.querySelector('.output').textContent = output;
-    }
-    </script>
-    <?php
-    echo "$voucher_price";
-    ?>
+			echo" Sorry, The code is invalid";
+			$voucher_disc = 0;
+			}
+}
+
+?>
+
+
+
       <!-- Heading -->
       <h2 class="my-5 h2 text-center">Checkout form</h2>
 
@@ -472,10 +377,15 @@ foreach ($_SESSION["cart_item"] as $item){
 
 <p style="margin: 15px;"><a href="cart_action.php?action=empty"><i class="fa fa-trash" style="font-size:24px"></i> Empty Cart</a></p>
 	<tr>
+	<!-- Total Price with Voucher Discount -->
 	<td colspan="2" align="right"><b>Total Price :</b></td>
+	<?php
+	$total_price -= $voucher_disc;
+	?>
 	<td style="text-align:center;" colspan="2"><strong><?php echo "RM ".number_format($total_price, 2); ?></strong></td>
 	</tr>
 <p style="margin: 15px;"><a onclick="checkoutfunc()" href ="checkout.php"> Check Out</a></p>
+
 <script>
 function checkoutfunc() {
   confirm("Are you confirm to proceed checkout?");

@@ -70,17 +70,6 @@ switch($_GET["action"]) {
 	case "empty":
 		unset($_SESSION["cart_item"]);
 	break;
-	
-	case "check":
-		if(!empty($_SESSION["cart_item"])) {
-			$_SESSION["voucher_code"]= $_GET["voucher"];
-			echo "<h1>Welcome at aaa </h1>";
-			echo $_SESSION["voucher_code"];
-			echo "<h1>Welcome at aaa </h1>";
-			echo $_SESSION["voucher_code"];
-			echo $_GET["voucher"];
-		}
-	break; 
 }
 }
 }
@@ -281,7 +270,8 @@ foreach ($_SESSION["cart_item"] as $item){
 	<td colspan="2" align="right"><b>Voucher:</b></td>
 
 	<td style="text-align:center;" colspan="2">
-		<select name="voucher">
+		<label for="voucher">Choose a voucher:</label>
+		<select name="voucher" id="voucher">
 		<option value=None>None</option>
 		<?php 
 		$sql = "SELECT * FROM voucher";
@@ -301,9 +291,44 @@ foreach ($_SESSION["cart_item"] as $item){
 		?>
 		</select>
 	</td>
-	<td style="text-align:center;" ><a href="cart_action.php?action=check&voucher_code=<?php echo $item["prodID"]; ?>"><i style="font-size:24px"></i> Check</a></p></td>
-	</td>
+	<td style="text-align:center;" ><p><span class="output"></span></p><input type="button" onclick="getOption()" value="Check"> </button>
+		<script type="text/javascript">
+		function getOption() {
+			
+			selectElement = document.querySelector('#voucher');
+			output = selectElement.value;
+			document.querySelector('.output').textContent = output;
+			var x = output;
+			location.href = "cart_action.php?voucher=" + x;
+		}
+		</script>
+		The voucher selected is: 
+			<?php
+			if (isset($_GET["voucher"])) {
+			$code = $_GET["voucher"];
+			echo $code;
+					$sql3 = "SELECT * FROM voucher WHERE voucher_code LIKE '%$code%' ";
+					$result3 = mysqli_query($conn, $sql3);
+								
+					if (mysqli_num_rows($result3)> 0) {
+						//output data of each row
+						while($row = mysqli_fetch_assoc($result3)) {
+						?>
+							
+							<?php 
+							$voucher_disc = $row['voucher_price'];
+							?>
+						<?php
+						}
+					}
+					else{
+						echo" Sorry, The code is invalid";
+						$voucher_disc = 0;
+						}
+			}
 
+			?>
+	</td>
 	</tr>
 	<tr>
 	<td colspan="2" align="right"><b>Select Child :</b></td>
@@ -336,7 +361,11 @@ foreach ($_SESSION["cart_item"] as $item){
 
 <p style="margin: 15px;"><a href="cart_action.php?action=empty"><i class="fa fa-trash" style="font-size:24px"></i> Empty Cart</a></p>
 	<tr>
+	<td colspan="2" align="right"><p><b>Voucher Applied :</b></p></td>
+	<td style="text-align:center;" colspan="2"><strong><?php echo $code; ?></strong></td>
+	<!-- Total Price with Voucher Discount -->
 	<td colspan="2" align="right"><b>Total Price :</b></td>
+	<?php $total_price -= $voucher_disc; ?>
 	<td style="text-align:center;" colspan="2"><strong><?php echo "RM ".number_format($total_price, 2); ?></strong></td>
 	</tr>
 <p style="margin: 15px;"><a onclick="checkoutfunc()" href ="checkout.php"> Check Out</a></p>
