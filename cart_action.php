@@ -301,7 +301,7 @@ foreach ($_SESSION["cart_item"] as $item){
 		?>
 		</select>
 	</td>
-	<td style="text-align:center;" ><a href="cart_action.php?action=check"><i style="font-size:24px"></i> Check</a></p></td>
+	<td style="text-align:center;" ><a href="cart_action.php?action=check&voucher_code=<?php echo $item["prodID"]; ?>"><i style="font-size:24px"></i> Check</a></p></td>
 	</td>
 
 	</tr>

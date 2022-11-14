@@ -335,7 +335,7 @@ else{
 			}
 		}
 		else{
-			echo"Sorry, 0 voucher found";
+			echo"Sorry, zero voucher found";
 			}		
 		?>
 </select>
@@ -349,9 +349,6 @@ else{
         selectElement = document.querySelector('#cars');
         output = selectElement.value;
         document.querySelector('.output').textContent = output;
-        <?php
-            $voucher_price=5;
-        ?>
     }
     </script>
     <?php
