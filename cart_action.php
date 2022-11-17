@@ -236,6 +236,8 @@ foreach ($_SESSION["cart_item"] as $item){
 	$item_eco = $item["quantity"]*$item["ecopoint"];
 	$item_cal = $item["quantity"]*$item["calories"];
 	?>
+
+	<!--Cart Item Displayed -->
 	<tr>
 	<td><?php echo $item["prodID"]; ?></td>
 	<td><?php echo $item["name"];?></td>
@@ -250,28 +252,60 @@ foreach ($_SESSION["cart_item"] as $item){
 	<td><?php echo $item_eco; ?></td>
 	<td><a href="cart_action.php?action=remove&prodID=<?php echo $item["prodID"]; ?>"><i class="fa fa-times-circle" ></i> Remove</a><br></td>
 	</tr>
+	<!--/.Cart Item Displayed -->
+
 	<?php
+	//Calculate Total Quantity, Price, Ecogreen Point, Calories
 	$total_quantity += $item["quantity"];
 	$total_price += ($item["price"]*$item["quantity"]);
 	$total_eco += ($item["ecopoint"]*$item["quantity"]);
 	$total_calories += ($item["calories"]*$item["quantity"]);
 	}
-	
 	?>
+
+	<!--Total Ecogreen Point and Total Calories -->
 	<tr>
 	<td colspan="2" align="right"><b>Ecogreen Point :</b></td>
-	<td style="text-align:center;"><?php echo $total_eco; ?> </td>
+	<td colspan="2" style="text-align:center;"><?php echo $total_eco; ?> </td>
 	<td colspan="2" align="right"><b>Total Calories :</b></td>
-	<td style="text-align:center;" colspan="2"><?php echo $total_calories; ?> kCal</td>
+	<td colspan="2" style="text-align:center;" colspan="2"><?php echo $total_calories; ?> kCal</td>
 	</tr>
+	<!--/.Total Ecogreen Point and Total Calories -->
+
+	<!-- Total Quantity and Select Child -->
 	<tr>
 	<td colspan="2" align="right"><b>Total Quantity :</b></td>
-	<td style="text-align:center;"><?php echo $total_quantity; ?></td>
-	<td colspan="2" align="right"><b>Voucher:</b></td>
+	<td colspan="2" style="text-align:center;"><?php echo $total_quantity; ?></td>
+	<td colspan="2" align="right"><b>Select Child :</b></td>
+	<td colspan="2" style="text-align:center;">
+		<select id="child" class="select" name="child" onchange="getChildOption()">
+		<?php
+		$sql2 = "SELECT * FROM user, student WHERE student.parent_id = user.user_id";
+		$result2 = mysqli_query($conn, $sql2);
+					
+		if (mysqli_num_rows($result2)> 0) {
+			//output data of each row
+			while($row = mysqli_fetch_assoc($result2)) {
+			?>
+				<option><?php echo $row['student_name']; ?></option>
 
+			<?php
+			}
+		}
+		else{
+			echo"Sorry, 0 child found";
+			}			
+		?>
+		</select>
+	</tr>
+  	<!--/.Total Quantity and Select Child-->
+
+	<!-- Voucher Select -->	
+	<tr>
+	<td colspan="2" align="right"><b>Voucher:</b></td>
 	<td style="text-align:center;" colspan="2">
 		<label for="voucher">Choose a voucher:</label></br>
-		<select name="voucher" id="voucher" value="asd">
+		<select name="voucher" id="voucher" class="select">
 		<option value=None>None</option>
 		<?php 
 		$sql = "SELECT * FROM voucher";
@@ -291,20 +325,30 @@ foreach ($_SESSION["cart_item"] as $item){
 		?>
 		</select>
 	</td>
-	<td style="text-align:center;" ><p><span class="output"></span></p><input type="button" onclick="getOption()" value="Check"> </button>
+	<td style="text-align:center;" ><p><span class="output"></span></p><input type="button" onclick="CheckOption()" value="Check"> </button>
+	</td>
 		<script type="text/javascript">
-		function getOption() {
-			
-			selectElement = document.querySelector('#voucher');
+		function CheckOption() {
+			var x = $("#voucher").val();; //to stay slected		
+			var y = $("#child").val();; //to stay slected		
+			/*selectElement = document.querySelector('#voucher');
 			output = selectElement.value;
 			document.querySelector('.output').textContent = output;
-			var x = output;
-			location.href = "cart_action.php?voucher=" + x;
+			var x = output;*/
+			location.href = "cart_action.php?voucher=" + x + "&child=" + y;
+		}		
+		function getChildOption() {
+			var y = $("#child").val();; //to stay slected		
+			location.href = "cart_action.php?voucher=" + x + "&child=" + y;
 		}
 		</script>
 			<?php
+			// Get the voucher discount with the selected voucher
 			if (isset($_GET["voucher"])) {
-			$code = $_GET["voucher"];
+				$_SESSION["voucher"] = $_GET["voucher"];
+				$_SESSION["child"] = $_GET["child"];
+				$_SESSION["discount"] = 0;
+				$code = $_SESSION["voucher"];
 					$sql3 = "SELECT * FROM voucher WHERE voucher_code LIKE '%$code%' ";
 					$result3 = mysqli_query($conn, $sql3);
 								
@@ -315,46 +359,20 @@ foreach ($_SESSION["cart_item"] as $item){
 							
 							<?php 
 							$voucher_disc = $row['voucher_price'];
+							$_SESSION["discount"] = $voucher_disc;
 							?>
 						<?php
 						}
 					}
 					else{
-						echo "<br>";
-						echo" Sorry, No voucher is applied.";
 						$voucher_disc = 0;
 						}
 			}
-
+			mysqli_close($conn);
 			?>
 	</td>
 	</tr>
-	<tr>
-	<td colspan="2" align="right"><b>Select Child :</b></td>
-	<td style="text-align:center;">
-		<select name="child">
-		<?php
-		$sql2 = "SELECT * FROM user, student WHERE student.parent_id = user.user_id";
-		$result2 = mysqli_query($conn, $sql2);
-					
-		if (mysqli_num_rows($result2)> 0) {
-			//output data of each row
-			while($row = mysqli_fetch_assoc($result2)) {
-			?>
-				<option><?php echo $row['student_name']; ?></option>
-
-			<?php
-			}
-		}
-		else{
-			echo"Sorry, 0 child found";
-			}
-					
-		mysqli_close($conn);
-		?>
-		</select>
-	</td>
-	</tr>
+	<!--/.Voucher Select-->
 </tbody>
 </table>
 

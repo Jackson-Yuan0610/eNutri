@@ -242,7 +242,8 @@ include("include/config.php");
 	
 
 			<?php
-				$sql = "SELECT * FROM user";
+        $search_user = $_SESSION["userName"];
+				$sql = "SELECT * FROM user WHERE user_name LIKE '%$search_user%' ";
 				$result = mysqli_query($conn, $sql);
 				
 			if (mysqli_num_rows($result)>0) {
