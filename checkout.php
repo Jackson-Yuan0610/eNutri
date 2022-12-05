@@ -11,20 +11,21 @@ if(isset($_SESSION["UID"])){
 	$cust_id = ($_SESSION["UID"]);
 	$cust_name =($_SESSION["userName"]);
 	date_default_timezone_set("Asia/Kuala_Lumpur");
-	$date_time = date("Y-m-d h:i:sa");
-	$order_status = "Successful";
+	$date_time = date("Y-m-d H:i:sa");
+	$order_status = "Waiting For Payment";
   $voucher = ($_SESSION["voucher"]);
   $discount = ($_SESSION["discount"]);
   $child = ($_SESSION["child"]);
 }
 if(isset($_SESSION["cart_item"])){
-    $total_quantity = 0;
-    $total_price = 0;
+  $total_quantity = 0;
+  $total_price = 0;
 	$total_calories = 0;
 	$total_eco = 0;
 	$delivery_charge = 5;
 	}
 ?>
+
 <style type="text/css">
         {
             margin: 0;
@@ -128,6 +129,7 @@ if(isset($_SESSION["cart_item"])){
             transform: translateY(0);
         }
 </style>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -135,7 +137,7 @@ if(isset($_SESSION["cart_item"])){
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>mylokalFood</title>
+  <title>Checkout Payment</title>
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
   <!-- Bootstrap core CSS -->
@@ -252,12 +254,11 @@ if(isset($_SESSION["cart_item"])){
 
           <!--Card-->
           <div class="card">  
-		  <form class="card-body">
+            <div class="card-body">  
+
 
               <!--Grid row-->
               <div class="row">
-
-                <!--Grid column-->
                
 	<p style="margin: 15px;"><i class="fa fa-shopping-cart" style="font-size:24px"></i> Order Information</p>
 	
@@ -306,8 +307,8 @@ if(isset($_SESSION["cart_item"])){
 				<td ><?php echo $item["quantity"]; ?></td>
 				<td ><?php echo $item["price"]; ?></td>
 				<td ><?php echo number_format($item_price,2); ?></td>
-                <td><?php echo $item_cal; ?></td>
-	            <td><?php echo $item_eco; ?></td>
+        <td><?php echo $item_cal; ?></td>
+	      <td><?php echo $item_eco; ?></td>
 			</tr>
 		<?php
         $total_quantity += $item["quantity"];
@@ -340,59 +341,86 @@ if(isset($_SESSION["cart_item"])){
 	</tr>
 	</tbody>
 	</table>
-	
+  <?php
+          $order_status = 2;//1= Pending, 2= Waiting For Payment, 3= Successful, 4= Failed
+          //sql for order_invoice table
+          $sql = "INSERT INTO orders (user_id, amount_price, order_datetime, order_status, total_eco, total_cal)
+            VALUES ('" . $_SESSION["UID"] . "','" . $total_price . "','" . $date_time . "','" . $order_status . "','" . $total_eco . "','" . $total_calories . "')";
+          
+            if (mysqli_query($conn, $sql)) {	
+              //echo "<p>New customer order record has the Order id: " . mysqli_insert_id($conn) . "<br>";	
+              $order_id = mysqli_insert_id($conn);
+            } else {
+            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            }	
+
+          foreach ($_SESSION["cart_item"] as $item){	
+            //sql for order_line table
+            $sql2 = "INSERT INTO orders_lines (user_id, order_id, food_id, order_amount, child_name, food_eco, food_cal)
+            VALUES ('" . $_SESSION["UID"] . "','" . $order_id . "','" . $item["prodID"] . "','" . $item["quantity"] . "','" . $child . "','" . $item["quantity"]*$item["ecopoint"] . "','" . $item["quantity"]*$item["calories"] . "')";
+          
+          if (mysqli_query($conn, $sql2)) {
+              //echo "<p>New customer order record created successfully.";	
+              $line_id = mysqli_insert_id($conn);
+            } else {
+            echo "Error: " . $sql2 . "<br>" . mysqli_error($conn);
+            }
+          }
+  ?>
 	<div class="wrapper">
         <div class="btn-area">
             <label for="chkBox">Continue Payment</label>
         </div>
-    </div>
+  </div>
     
     <input type="checkbox" name="" id="chkBox">
     <div class="mainContnt">
         <div class="box">
-
-			<div class="boxes bx1">
-               <h2><b>Payment Page</b></h2>
-			   <div class="login-form">
-                    <label for="" style="font-size:22px;">Receipt:</label>
-                    <input type="file" name="receipt" class="form-control" required>
-                    <input type="submit" value="Complete Payment">
-                </div>
-				<div class="boxes bx2">
-				<?php
-					$sql = "SELECT * FROM paymethod";
-					$res = mysqli_query($conn, $sql);
-					if (mysqli_num_rows($res)> 0) {
-					//output data of each row
-					while($row = mysqli_fetch_assoc($res)) {
-						?>
-						<img src="<?php echo htmlentities($row['method_img']); ?>" style="width:22%"></img>
-						<?php
-						}
-					}
-					else{
-						echo "<br>";
-						echo" Sorry, No payment method is provided";
-						}
-				?>
-				</div>
-				<div class="close-box">
-                    <label for="chkBox" class="box-close">X Close</label>
-                </div>
-        	</div> 
+          <div class="boxes bx1">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+                  <h2><b>Payment Page</b></h2>
+                    <div class="login-form">
+                      <form enctype=multipart/form-data action="complete_order.php" method="POST" \>
+                          <input type="hidden" id="orderId" name="orderId" value=<?php echo $order_id; ?>>
+                          <label for="" style="font-size:22px;">Receipt:</label>
+                          <input type="file"  id="receipt" name="receipt" class="form-control">
+                          <input type="submit" value="Complete Payment">
+                      </form>
+                    </div>
+            <div class="boxes bx2">
+              <?php
+                $sql = "SELECT * FROM paymethod";
+                $res = mysqli_query($conn, $sql);
+                if (mysqli_num_rows($res)> 0) {
+                //output data of each row
+                while($row = mysqli_fetch_assoc($res)) {
+                  ?>
+                  <img src="<?php echo htmlentities($row['method_img']); ?>" style="width:22%"></img>
+                  <?php
+                  }
+                }
+                else{
+                  echo "<br>";
+                  echo" Sorry, No payment method is provided";
+                  }
+                  mysqli_close($conn);	
+              ?>
+            </div>
+              <div class="close-box">
+                <label for="chkBox" class="box-close">X Close</label>
+              </div>
+          </div> 
         </div>
-
     </div>
 
-
-
-        </div>
-        <!--Grid column-->
-
+            </div>
+            <!--Grid column-->
+          </div>
+          <!--Grid row-->
       </div>
-      <!--Grid row-->
-
     </div>
-  </main>
+  </div>
+</div>
+</main>
 </body>
 </html>

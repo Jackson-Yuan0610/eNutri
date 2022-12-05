@@ -35,12 +35,12 @@ include("include/config.php");
 <div class="row">
 	<div class="col-secLeft">
 		<div class="header">
-			<h4>| Login</h4>
+			<h4>a| Login</h4>
 		</div>
 		<form action="loginusr_action.php" method="post">
-		<p>Username: 
+		<p>aaUsername: 
 		<input type="text" name="user_email" required placeholder="Your email"></p>
-		<p>Password: 
+		<p>aaPassword: 
 		<input type="password" name="user_pw" required></p>
 		<button type="submit">Login</button>
 		<br> 

@@ -1,15 +1,27 @@
 <?php
 session_start();
 include("include/config.php");
+
+//pass variable if login
+if(isset($_SESSION["UID"])){
+	$cust_id = ($_SESSION["UID"]);
+	$cust_name =($_SESSION["userName"]);
+	date_default_timezone_set("Asia/Kuala_Lumpur");
+	$date_time = date("Y-m-d H:i:sa");
+  $eco = ($_SESSION["ecogreen"]);
+  $credit = ($_SESSION["credit_point"]);
+}
+
 ?>
 <!DOCTYPE html>
 <html style="font-size: 16px;" lang="en"><head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Menu">
-    <title>enutri Menu</title>
+    <meta name="keywords" content="​Small Pricing Plan For Your Creative Business">
+    <meta name="description" content="">
+    <title>credit</title>
     <link rel="stylesheet" href="css/nicepage.css" media="screen">
-    <link rel="stylesheet" href="css/Page-6.css" media="screen">
+    <link rel="stylesheet" href="css/Contact-1.css" media="screen">
     <script class="u-script" type="text/javascript" src="jquery-1.9.1.min.js" defer=""></script>
     <script class="u-script" type="text/javascript" src="nicepage.js" defer=""></script>
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
@@ -22,15 +34,12 @@ include("include/config.php");
     <link href="css/mdb.min.css" rel="stylesheet">
     <!-- Your custom styles (optional) -->
     <link href="css/style.min.css" rel="stylesheet"> 
-    
-
     <meta name="theme-color" content="#f05510">
-    <meta property="og:title" content="reward">
+    <meta property="og:title" content="Contact 1">
     <meta property="og:type" content="website">
   </head>
-  <body class="u-body u-xl-mode" data-lang="en"><header class="u-clearfix u-header u-header" id="sec-2b6b">
-  <body>
-<!-- Navbar -->
+  <body class="u-body u-xl-mode" data-lang="en">
+    <!-- Navbar -->
 <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
     <div class="container">
       <!-- Brand -->
@@ -55,7 +64,7 @@ include("include/config.php");
           <li class="nav-item">
             <a class="nav-link waves-effect" href="profile.php"><i class="fas fa-user-alt"></i>Profile</a>
           </li>    
-		  <li class="nav-item active">
+		  <li class="nav-item">
             <a class="nav-link waves-effect" href="menu.php"><i class="fas fa-pizza-slice"></i><br> Food Menu</a>
           </li>		  
 		  <li class="nav-item">
@@ -64,7 +73,7 @@ include("include/config.php");
           <li class="nav-item">
             <a class="nav-link waves-effect" href="order.php"><i class="fas fa-utensils"></i><br> My Order</a>
           </li>
-		  <li class="nav-item">
+		  <li class="nav-item active">
             <a class="nav-link waves-effect" href="credit.php"><i class="fas fa-credit-card"></i><br> My Credit</a>
           </li>
 		  <li class="nav-item">
@@ -104,101 +113,32 @@ include("include/config.php");
 	</div>
   </nav>
   <!-- Navbar -->
-      </body>
-    </header>
-    <section class="u-align-center u-clearfix u-grey-10 u-section-1" id="sec-922b">
-      <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
-        <br><br><br><h1 class="u-custom-font u-font-oswald u-text u-text-default u-text-palette-3-base u-text-1 "><br>Food Menu</br></h1>
-		<p>Current Date: <span id="date"></span>
-		<script>
-		var dt = new Date();
-		document.getElementById("date").innerHTML = (("0"+dt.getDate()).slice(-2)) +"."+ (("0"+(dt.getMonth()+1)).slice(-2)) +"."+ (dt.getFullYear());
-		</script>
-		, <span id="weekday"></span></p>
-		<script>
-		const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-
-		const d = new Date();
-		let day = weekday[d.getDay()];
-		document.getElementById("weekday").innerHTML = day;
-		</script>
-        <div class="u-form u-form-1">
-          <form action="search_date.php" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" method="POST" >
-            <div class="u-form-date u-form-group u-form-group-1">
-              <label for="today" class="u-label">Date</label>
-              <input type="date" value="<?php echo date('Y-m-d'); ?>" id="today" name="datesearch" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" min="<?= date('Y-m-d'); ?>" required="" spellcheck="false">
-            </div>
-			<script>
-			document.getElementById('today').value = moment().format('YYYY-MM-DD');
-			</script>
-            <div class="u-align-center u-form-group u-form-submit">
-			<button type="submit" class="u-border-2 u-border-black u-btn u-btn-submit u-button-style u-gradient u-hover-black u-none u-text-black u-text-hover-white u-btn-1"><i class="fa fa-search"></i></button>
-            </div>
-          </form>
-        </div>
-        <div class="u-form u-form-2">
-          <form action="search_food.php" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" method="POST" style="padding: 15px;">
-            <div class="u-form-group u-form-group-3">
-              <label for="text-4aea" class="u-label">Search</label>
-              <input type="text" placeholder="What are you craving?" id="text-4aea" name="search" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" spellcheck="false">
-            </div>
-            <div class="u-align-center u-form-group u-form-submit">
-			  <button type="submit" class="u-border-2 u-border-black u-btn u-btn-submit u-button-style u-gradient u-hover-black u-none u-text-black u-text-hover-white u-btn-1"><i class="fa fa-search"></i></button>
-            </div>
-          </form>
-        </div>
-
-        <div class="u-expanded-width u-list u-list-4">
-
+    <section class="u-align-center-lg u-align-center-md u-align-center-sm u-align-center-xs u-align-left-xl u-clearfix u-grey-10 u-section-1" id="carousel_58d0">
+      <div class="u-clearfix u-sheet u-sheet-1">
+        <div class="u-list u-list-1">
+          <br><br><br><br><br><br></br>
           <div class="u-repeater u-repeater-1">
-        <?php
-			if(isset($_GET['action']) && $_GET['action']=="view"){
-				$food_cat = $_GET['cat'];
-				$sql = "SELECT *FROM food WHERE food_cat = $food_cat";
-			}
-			else {
-				$mydate=getdate();
-				$week_day = $mydate['wday'];
-				$sql = "SELECT * FROM food";
-				/*$sql = "SELECT * FROM food WHERE food.week_day ='$week_day'";*/
-			}
-			$result = mysqli_query($conn, $sql);
-			if (mysqli_num_rows($result) > 0) {
-				// output data of each row
-				while($row = mysqli_fetch_assoc($result)) {
-        ?> 
-            <div class="u-container-style u-list-item u-repeater-item u-white u-list-item-1">
-              <div class="u-container-layout u-similar-container u-valign-top-lg u-valign-top-md u-valign-top-sm u-valign-top-xl u-container-layout-1">
-                <img alt="" class="u-expanded-width-xs u-image u-image-default u-image-1" src="<?php echo htmlentities($row['food_img']); ?>">
-                <div class="u-align-left-xs u-container-style u-expanded-width-xs u-group u-video-cover u-group-1">
-                  <div class="u-container-layout u-valign-middle-xs u-container-layout-2">
-                    <h3 class="u-custom-font u-font-oswald u-text u-text-3"><?php echo htmlentities($row['food_name']);?></h3>
-                    <p class="u-text u-text-4"><?php echo htmlentities($row['food_calories']);?> Calories</p>
-                    <h6 class="u-text u-text-palette-3-base u-text-5">RM <?php echo htmlentities($row['food_price']);?></h6><br>
-					<form method="post" action="cart_action.php?action=add&id=<?php echo $row['food_id'];?>">
-					<input type="text" name="quantity" value="1" size="2" />
-					<button type="submit" class="u-border-2 u-border-black u-btn u-btn-submit u-button-style u-gradient u-hover-black u-none u-text-black u-text-hover-white u-btn-1"><i class="fa fa-shopping-cart" style="font-size:20px"></i> Add to Cart</button>
-
-					</form>
-                  </div>
-                </div>
+            <div class="u-container-style u-grey-5 u-list-item u-radius-50 u-repeater-item u-shape-round u-list-item-1">
+              <div class="u-container-layout u-similar-container u-container-layout-1"><span class="u-black u-custom-item u-file-icon u-icon u-icon-circle u-icon-1"><img src="img/credit/2936758.png" alt=""></span>
+                <h4 class="u-custom-font u-font-montserrat u-text u-text-default u-text-1">RM <?php echo "$credit"; ?></h4>
+                <h6 class="u-custom-font u-font-montserrat u-text u-text-default u-text-2">Total Amount: RM</h6>
+                <h6 class="u-custom-font u-font-montserrat u-text u-text-default u-text-3">Pending Amount: RM</h6>
+                <a href="https://nicepage.review" class="u-black u-border-2 u-border-black u-btn u-button-style u-custom-item u-hover-white u-text-hover-black u-text-white u-btn-1">top up</a>
               </div>
             </div>
-            <?php 
-        }//while
-      }//if
-        else {
-          echo "Sorry, 0 result found";
-      } 
-
-      mysqli_close($conn);
-    ?> 
+            <div class="u-container-style u-grey-5 u-list-item u-radius-50 u-repeater-item u-shape-round u-list-item-2">
+              <div class="u-container-layout u-similar-container u-container-layout-2"><span class="u-custom-item u-file-icon u-icon u-icon-circle u-white u-icon-2"><img src="img/credit/2704312.png" alt=""></span>
+                <h4 class="u-custom-font u-font-montserrat u-text u-text-default u-text-4">RM29</h4>
+                <h6 class="u-custom-font u-font-montserrat u-text u-text-default u-text-5">Available Amount: RM</h6>
+                <h6 class="u-custom-font u-font-montserrat u-text u-text-default u-text-6">Available Amount: RM</h6>
+                <a href="https://nicepage.review" class="u-border-2 u-border-black u-btn u-button-style u-custom-item u-hover-black u-none u-text-black u-text-hover-white u-btn-2">cash out</a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
- 
     </section>
-  
     
-
   <!--Footer-->
   <footer class="page-footer text-center font-small mt-4 wow fadeIn">
 
@@ -248,5 +188,6 @@ include("include/config.php");
     // Animations initialization
     new WOW().init();
 
-  </script>  
+  </script> 
+  
 </body></html>

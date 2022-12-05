@@ -1,0 +1,148 @@
+.u-section-1 .u-sheet-1 {
+  min-height: 675px;
+}
+
+.u-section-1 .u-list-1 {
+  width: 663px;
+  margin: 22px 206px 22px auto;
+}
+
+.u-section-1 .u-repeater-1 {
+  grid-template-columns: repeat(2, calc(50% - 10px));
+  min-height: 512px;
+  grid-gap: 20px;
+}
+
+.u-section-1 .u-list-item-1 {
+  background-image: none;
+}
+
+.u-section-1 .u-container-layout-1 {
+  padding: 0 3px 2px 10px;
+}
+
+.u-section-1 .u-icon-1 {
+  width: 128px;
+  height: 128px;
+  background-image: none;
+  margin: 0 auto;
+  padding: 32px;
+}
+
+.u-section-1 .u-text-1 {
+  font-weight: 700;
+  font-size: 3.75rem;
+  margin: 37px auto 0;
+}
+
+.u-section-1 .u-text-2 {
+  font-weight: 400;
+  margin: 20px auto 0;
+}
+
+.u-section-1 .u-text-3 {
+  background-image: none;
+  margin: 20px auto 0;
+}
+
+.u-section-1 .u-btn-1 {
+  font-size: 1rem;
+  letter-spacing: 0px;
+  border-style: solid;
+  font-weight: 700;
+  text-transform: uppercase;
+  background-image: none;
+  margin: 37px auto 0;
+}
+
+.u-section-1 .u-list-item-2 {
+  background-image: none;
+}
+
+.u-section-1 .u-container-layout-2 {
+  padding: 0 3px 2px 10px;
+}
+
+.u-section-1 .u-icon-2 {
+  width: 128px;
+  height: 128px;
+  background-image: none;
+  margin: 0 auto;
+  padding: 32px;
+}
+
+.u-section-1 .u-text-4 {
+  font-weight: 700;
+  font-size: 3.75rem;
+  margin: 37px auto 0;
+}
+
+.u-section-1 .u-text-5 {
+  font-weight: 400;
+  margin: 20px auto 0;
+}
+
+.u-section-1 .u-text-6 {
+  background-image: none;
+  font-weight: 400;
+  margin: 20px auto 0;
+}
+
+.u-section-1 .u-btn-2 {
+  font-size: 1rem;
+  letter-spacing: 0px;
+  border-style: solid;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 37px auto 0;
+}
+
+@media (max-width: 1199px) {
+  .u-section-1 .u-list-1 {
+    margin-top: 111px;
+    margin-right: auto;
+    margin-bottom: 52px;
+  }
+
+  .u-section-1 .u-icon-1 {
+    margin-top: 18px;
+  }
+
+  .u-section-1 .u-text-1 {
+    margin-top: 19px;
+  }
+
+  .u-section-1 .u-btn-1 {
+    padding: 12px 42px 13px 41px;
+  }
+
+  .u-section-1 .u-icon-2 {
+    margin-top: 18px;
+  }
+
+  .u-section-1 .u-text-4 {
+    margin-top: 19px;
+  }
+
+  .u-section-1 .u-btn-2 {
+    padding: 12px 42px 13px 41px;
+  }
+}
+
+@media (max-width: 991px) {
+  .u-section-1 .u-list-1 {
+    width: 385px;
+  }
+
+  .u-section-1 .u-repeater-1 {
+    grid-template-columns: 100%;
+    min-height: 1074px;
+  }
+}
+
+@media (max-width: 575px) {
+  .u-section-1 .u-list-1 {
+    width: 340px;
+    margin-top: 88px;
+  }
+}

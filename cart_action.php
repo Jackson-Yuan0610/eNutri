@@ -82,7 +82,7 @@ else{
 <html lang="en">
 
 <head>
-<title>enutri Nutrition</title>
+<title>enutri Cart</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -189,7 +189,7 @@ else{
  <main class="mt-5 pt-4">
     <div class="container wow fadeIn">
       <!-- Heading -->
-      <h2 class="my-5 h2 text-center">Checkout form</h2>
+      <h2 class="my-5 h2 text-center">Checkout Form</h2>
 
       <!--Grid row-->
       <div class="row">
@@ -392,6 +392,9 @@ foreach ($_SESSION["cart_item"] as $item){
 		<?php
 			if (isset($_GET["voucher"])) {
 				$total_price -= $voucher_disc;
+				if($total_price < 0){
+					$total_price = 0;
+				}
 			}
 		?>	
 	<td style="text-align:center;" colspan="2"><strong><?php echo "RM ".number_format($total_price, 2); ?></strong></td>

@@ -48,6 +48,8 @@ if (mysqli_num_rows($result) == 1) {
 		echo "Login success. <br> Thank you for filling out the login form, <b>".$username."</b>.<br /><br />";		
 		$_SESSION["UID"] = $row["user_id"];//the first record set, bind to userID
 		$_SESSION["userName"] = $row["user_name"];
+    $_SESSION["ecogreen"] = $row["eco_point"];
+    $_SESSION["credit_point"] = $row["total_credit"];
 		header("location:menu.php"); 
     } else {
     echo 'Login error, username or password is incorrect.';

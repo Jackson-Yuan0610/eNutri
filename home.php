@@ -81,8 +81,8 @@ include("include/config.php");
               <p>
                 <strong>eNutri-Canteen</strong>
                 <br><strong>An Integrated E-Canteen Food Ordering System</strong></br>
-                <strong>For you, For me, For us</strong>      
-	     	  </p>
+                <strong>For you, For me, For us</strong>				
+			  </p>
 
             </div>
             <!-- Content -->

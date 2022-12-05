@@ -3,39 +3,36 @@ session_start();
 include("include/config.php");
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html style="font-size: 16px;" lang="en"><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Menu">
+    <title>enutri Menu</title>
+    <link rel="stylesheet" href="css/nicepage.css" media="screen">
+    <link rel="stylesheet" href="css/Page-6.css" media="screen">
+    <script class="u-script" type="text/javascript" src="jquery-1.9.1.min.js" defer=""></script>
+    <script class="u-script" type="text/javascript" src="nicepage.js" defer=""></script>
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    <link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald:200,300,400,500,600,700">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="css/style.min.css" rel="stylesheet"> 
+    
 
-<head>
-<title>enutri</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta http-equiv="x-ua-compatible" content="ie=edge">
-<!-- Font Awesome -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
-<!-- Bootstrap core CSS -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
-<!-- Material Design Bootstrap -->
-<link href="css/mdb.min.css" rel="stylesheet">
-<!-- Your custom styles (optional) -->
-<link href="css/style.min.css" rel="stylesheet">
-<style type="text/css">
-     
-    .center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-}
-
-</style>
-</head>
-
-<body>
-
- <!-- Navbar -->
-  <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
+    <meta name="theme-color" content="#f05510">
+    <meta property="og:title" content="reward">
+    <meta property="og:type" content="website">
+  </head>
+  <body class="u-body u-xl-mode" data-lang="en"><header class="u-clearfix u-header u-header" id="sec-2b6b">
+  <body>
+<!-- Navbar -->
+<nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
     <div class="container">
-
       <!-- Brand -->
       <a class="navbar-brand waves-effect" target="_blank">
         <strong class="blue-text">eNutri-Canteen</strong>
@@ -102,20 +99,17 @@ include("include/config.php");
 					echo '<a href="login.php" class="nav-link border border-light rounded waves-effect"><i class="fas fa-sign-in-alt"></i> Login </a>';
 				}?>
 			</li>
-		  </ul>
-	  </div>
-    </div>
-	
+		</ul>	  
+		</div>
+	</div>
   </nav>
   <!-- Navbar -->
-  
- <main class="mt-111 pt-4">
-    <div class="container wow fadeIn">
-
-      <!-- Heading -->
-      <h2 class="my-5 h2 text-center">Food Menu</h2>
-	  <!-- Display Timestamp-->
-	  <p>Date: <span id="date"></span>
+      </body>
+    </header>
+    <section class="u-align-center u-clearfix u-grey-10 u-section-1" id="sec-922b">
+      <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
+        <br><br><br><h1 class="u-custom-font u-font-oswald u-text u-text-default u-text-palette-3-base u-text-1 "><br>Food Menu</br></h1>
+		<p>Current Date: <span id="date"></span>
 		<script>
 		var dt = new Date();
 		document.getElementById("date").innerHTML = (("0"+dt.getDate()).slice(-2)) +"."+ (("0"+(dt.getMonth()+1)).slice(-2)) +"."+ (dt.getFullYear());
@@ -127,80 +121,125 @@ include("include/config.php");
 		const d = new Date();
 		let day = weekday[d.getDay()];
 		document.getElementById("weekday").innerHTML = day;
-		</script>	  
-	  <!-- Search Function -->
-	  <div class="search-container">
-		<form action="search_food.php" method="POST">
-		<button type="submit"><i class="fa fa-search"></i></button>
-		<input type="text" placeholder="What are you craving?" name="search">
-		</form>
-	  </div>
-	  <div class="search-date">
-		<form action="search_date.php" method="POST">
-		<br><input id="today" type="date" value="<?php echo date('Y-m-d'); ?>" name="datesearch" min="<?= date('Y-m-d'); ?>">
-		<script>
-		document.getElementById('today').value = moment().format('YYYY-MM-DD');
 		</script>
-		<button type="submit"><i class="fa fa-search"></i></button>
-		</form>
-	  </div>	
+        <div class="u-form u-form-1">
+          <form action="search_date.php" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" method="POST" >
+            <div class="u-form-date u-form-group u-form-group-1">
+              <label for="today" class="u-label">Date</label>
+              <input type="date" value="<?php echo date('Y-m-d'); ?>" id="today" name="datesearch" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" min="<?= date('Y-m-d'); ?>" required="" spellcheck="false">
+            </div>
+			<script>
+			document.getElementById('today').value = moment().format('YYYY-MM-DD');
+			</script>
+            <div class="u-align-center u-form-group u-form-submit">
+			<button type="submit" class="u-border-2 u-border-black u-btn u-btn-submit u-button-style u-gradient u-hover-black u-none u-text-black u-text-hover-white u-btn-1"><i class="fa fa-search"></i></button>
+            </div>
+          </form>
+        </div>
+        <div class="u-form u-form-2">
+          <form action="search_food.php" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" method="POST" style="padding: 15px;">
+            <div class="u-form-group u-form-group-3">
+              <label for="text-4aea" class="u-label">Search</label>
+              <input type="text" placeholder="What are you craving?" id="text-4aea" name="search" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" spellcheck="false">
+            </div>
+            <div class="u-align-center u-form-group u-form-submit">
+			  <button type="submit" class="u-border-2 u-border-black u-btn u-btn-submit u-button-style u-gradient u-hover-black u-none u-text-black u-text-hover-white u-btn-1"><i class="fa fa-search"></i></button>
+            </div>
+          </form>
+        </div>
 
-            	
-<?php
-	//Get the Search Keyword
-	$search = $_POST['search'];
-	
-	//SQL Query to Get foods based on search keyword
-	$mydate=getdate();
-	$week_day = $mydate['wday'];
-	$sql = "SELECT * FROM food WHERE food_name LIKE '%$search%' AND food.week_day ='$week_day'";
-	
-	//Execute the Query
-	$res = mysqli_query($conn,$sql);
-	
-	//Count Rows
-	$count = mysqli_num_rows($res);
-	
-	//Check whether food available or not
-	if($count > 0)
-	{
-		//Food available
-		while($row=mysqli_fetch_assoc($res))
-		{
-			?>
-			<!-- food resultset <a href="index.php?page=product&action=add&id=<?php //echo $row['food_id']; ?>"><i class="fa fa-shopping-cart" ></i> Add to Cart</a><br><br>-->
-			<div class="w3-quarter">
-			<br>
-			<img src="<?php echo htmlentities($row['food_img']); ?>" style="width:20%"></img><br>
-			<b><?php echo htmlentities($row['food_name']);?></b><br>
-			<?php echo htmlentities($row['food_calories']);?> Calories<br>	 
-			RM <?php echo htmlentities($row['food_price']);?><br>
-				<span class="fa fa-star checked"></span>
-				<span class="fa fa-star checked"></span>
-				<span class="fa fa-star checked"></span>
-				<span class="fa fa-star"></span>
-				<span class="fa fa-star"></span>	  
-			<form method="post" action="cart_action.php?action=add&id=<?php echo $row['food_id'];?>">
-				<input type="text" name="quantity" value="1" size="2" />
-				<button type="submit"><i class="fa fa-shopping-cart" style="font-size:20px"></i> Add to Cart</button>
-			</form></b><br>
-			</div>   
-			<?php 
-		}
-	}
-	else
-	{
+        <div class="u-expanded-width u-list u-list-4">
+
+          <div class="u-repeater u-repeater-1">
+        <?php
+			//Get the Search Keyword
+			$search = $_POST['search'];
+			
+			//SQL Query to Get foods based on search keyword
+			$mydate=getdate();
+			$week_day = $mydate['wday'];
+			$sql = "SELECT * FROM food WHERE food_name LIKE '%$search%' AND food.week_day ='$week_day'";
+			
+			//Execute the Query
+			$res = mysqli_query($conn,$sql);
+			
+			//Count Rows
+			$count = mysqli_num_rows($res);
+			
+			//Check whether food available or not
+			if($count > 0){
+
+			// output data of each row
+			while($row = mysqli_fetch_assoc($res)) {
+        ?> 
+            <div class="u-container-style u-list-item u-repeater-item u-white u-list-item-1">
+              <div class="u-container-layout u-similar-container u-valign-top-lg u-valign-top-md u-valign-top-sm u-valign-top-xl u-container-layout-1">
+                <img alt="" class="u-expanded-width-xs u-image u-image-default u-image-1" src="<?php echo htmlentities($row['food_img']); ?>">
+                <div class="u-align-left-xs u-container-style u-expanded-width-xs u-group u-video-cover u-group-1">
+                  <div class="u-container-layout u-valign-middle-xs u-container-layout-2">
+                    <h3 class="u-custom-font u-font-oswald u-text u-text-3"><?php echo htmlentities($row['food_name']);?></h3>
+                    <p class="u-text u-text-4"><?php echo htmlentities($row['food_calories']);?> Calories</p>
+                    <h6 class="u-text u-text-palette-3-base u-text-5">RM <?php echo htmlentities($row['food_price']);?></h6><br>
+					<form method="post" action="cart_action.php?action=add&id=<?php echo $row['food_id'];?>">
+					<input type="text" name="quantity" value="1" size="2" />
+					<button type="submit" class="u-btn u-btn-rectangle u-button-style u-grey-10 u-btn-1"><i class="fa fa-shopping-cart" style="font-size:20px"></i> Add to Cart</button>
+					</form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <?php 
+        }//while
+      }//if
+        else {
 		//Food Not available
 		echo "<div class='error'><br><strong>Food Not Found. Sorry.</strong></br></div>";
-		?><br><td><a href="menu.php"><button type="submit"><strong>Back Home</strong></button></td></br>
+		?><a href="menu.php"><button type="submit" class="u-btn u-btn-rectangle u-button-style u-grey-10 u-btn-1"><strong>Back Menu</strong></button>
 		<?php
-	}
-mysqli_close($conn);
-?>
+      } 
 
-</div>  <!-- Page content row -->
+      mysqli_close($conn);
+    ?> 
+      </div>
+ 
+    </section>
+  
+    
 
+  <!--Footer-->
+  <footer class="page-footer text-center font-small mt-4 wow fadeIn">
 
+  <hr class="my-4">
+
+  <!-- Social icons -->
+  <div class="pb-4">
+    <i class="fab fa-facebook-f mr-3"></i>
+
+    <i class="fab fa-twitter mr-3"></i>
+
+    <i class="fab fa-youtube mr-3"></i>
+
+    <i class="fab fa-google-plus-g mr-3"></i>
+
+    <i class="fab fa-dribbble mr-3"></i>
+
+    <i class="fab fa-pinterest mr-3"></i>
+
+    <i class="fab fa-github mr-3"></i>
+
+    <i class="fab fa-codepen mr-3"></i>
+
+  </div>
+  <!-- Social icons -->
+
+  <!--Copyright-->
+  <div class="footer-copyright py-3">
+    © 2022 Copyright: eNutri-Canteen
+  </div>
+  <!--/.Copyright-->
+
+  </footer>
+  <!--/.Footer-->
 
   <!-- Animation SCRIPTS -->
   <!-- JQuery -->
@@ -216,13 +255,5 @@ mysqli_close($conn);
     // Animations initialization
     new WOW().init();
 
-  </script>
-</body>
-
-<!-- Footer -->
-<footer>
-	<div class="footer">
-	<small><i>Copyright &copy; 2022 eNutri</i></small>
-	</div>
-</footer>
-</html>
+  </script>  
+</body></html>
