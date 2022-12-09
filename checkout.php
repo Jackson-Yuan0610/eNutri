@@ -316,7 +316,12 @@ if(isset($_SESSION["cart_item"])){
         $total_eco += ($item["ecopoint"]*$item["quantity"]);
         $total_calories += ($item["calories"]*$item["quantity"]);
 	}
-		$total_price -= $discount;
+    if($discount < 1){
+      $total_price = $total_price *(1-$discount);
+    }
+    else{
+      $total_price -= $discount;
+    }
 		?>
 	<!-- Total Ecogreen Point and Total Calories -->
     <tr>
@@ -332,6 +337,11 @@ if(isset($_SESSION["cart_item"])){
 		<td colspan="2" align="right"><b>Voucher Apply:</b></td>
 		<td style="text-align:center;" colspan="2"><?php echo $voucher; ?></td>
 		<td colspan="2" align="right"><b>Voucher Discount:</b></td>
+    <?php
+        if($discount < 1){
+          $discount = $item_price *($discount);
+        }
+    ?>
 		<td style="text-align:center;" colspan="2"><?php echo $discount; ?></td>
 	</tr>
 	<!-- Total Quantity and Price -->

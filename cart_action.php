@@ -2,6 +2,8 @@
 session_start();
 include("include/config.php");
 if(isset($_SESSION["UID"]) && !empty($_SESSION["UID"])){
+	$cust_id = ($_SESSION["UID"]);
+	$cust_name =($_SESSION["userName"]);
 if(!empty($_GET["action"])) {
 switch($_GET["action"]) {
 	case "add":
@@ -307,11 +309,28 @@ foreach ($_SESSION["cart_item"] as $item){
 		<label for="voucher">Choose a voucher:</label></br>
 		<select name="voucher" id="voucher" class="select">
 		<option value=None>None</option>
-		<?php 
-		$sql = "SELECT * FROM voucher";
+		<?php
+		//Display the reward code of the user 
+		$sql = "SELECT * FROM reward_list WHERE user_id = $cust_id ";
 		$result = mysqli_query($conn, $sql);
 					
 		if (mysqli_num_rows($result)> 0) {
+			//output data of each row
+			while($row = mysqli_fetch_assoc($result)) {
+			?>
+				<option><?php echo $row['reward_code']; ?></option>
+			<?php
+			}
+		}
+		else{
+			echo"Sorry, 0 voucher found";
+			}
+		
+		//Display the available voucher code
+		$sql = "SELECT * FROM voucher WHERE voucher_availability = 1 ";
+		$result = mysqli_query($conn, $sql);
+						
+		if (mysqli_num_rows($result2)> 0) {
 			//output data of each row
 			while($row = mysqli_fetch_assoc($result)) {
 			?>
@@ -356,7 +375,6 @@ foreach ($_SESSION["cart_item"] as $item){
 						//output data of each row
 						while($row = mysqli_fetch_assoc($result3)) {
 						?>
-							
 							<?php 
 							$voucher_disc = $row['voucher_price'];
 							$_SESSION["discount"] = $voucher_disc;
@@ -366,6 +384,22 @@ foreach ($_SESSION["cart_item"] as $item){
 					}
 					else{
 						$voucher_disc = 0;
+							$sql4 = "SELECT * FROM reward WHERE reward_code LIKE '%$code%' ";
+							$result4 = mysqli_query($conn, $sql4);
+							if (mysqli_num_rows($result4)> 0) {
+								//output data of each row
+								while($row = mysqli_fetch_assoc($result4)) {
+								?>
+									<?php 
+									$voucher_disc = $row['reward_price'];
+									$_SESSION["discount"] = $voucher_disc;
+									?>
+								<?php
+								}
+							}
+							else{
+								$voucher_disc = 0;
+							}
 						}
 			}
 			mysqli_close($conn);
@@ -391,10 +425,16 @@ foreach ($_SESSION["cart_item"] as $item){
 	<td colspan="2" align="right"><p><b>Total Price :</b></td>
 		<?php
 			if (isset($_GET["voucher"])) {
-				$total_price -= $voucher_disc;
-				if($total_price < 0){
+				if($_SESSION["discount"] < 1){
+					$total_price = $total_price *(1-$voucher_disc);
+				}
+				else if($_SESSION["discount"] < 0){
 					$total_price = 0;
 				}
+				else{
+					$total_price -= $voucher_disc;
+				}
+
 			}
 		?>	
 	<td style="text-align:center;" colspan="2"><strong><?php echo "RM ".number_format($total_price, 2); ?></strong></td>

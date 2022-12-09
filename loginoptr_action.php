@@ -43,15 +43,15 @@ $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) == 1) {	
 	//check password hash
 	$row = mysqli_fetch_assoc($result);
-	if (password_verify($_POST['operator_pw'],$row['pwdHash'])) {
+	if (password_verify($_POST['operator_pw'],$row['operator_pwhash'])) {
         //echo 'Pwd Verified'; // password_verify success!
 		echo "Login success. <br> Thank you for filling out the login form, <b>".$username."</b>.<br /><br />";		
 		$_SESSION["UID"] = $row["operator_id"];//the first record set, bind to userID
 		$_SESSION["userName"] = $row["operator_name"];
-		header("location:index.php"); 
+		header("location:operator/dashboard.php"); 
     } else {
     echo 'Login error, username or password is incorrect.';
-	echo $row['pwdHash'];
+	echo $row['operator_pwhash'];
 	
     }
 		

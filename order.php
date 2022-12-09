@@ -1,7 +1,18 @@
 <?php
 session_start();
 include("include/config.php");
+
+//pass variable if login
+if(isset($_SESSION["UID"])){
+	$cust_id = ($_SESSION["UID"]);
+	$cust_name =($_SESSION["userName"]);
+	date_default_timezone_set("Asia/Kuala_Lumpur");
+	$date_time = date("Y-m-d H:i:sa");
+  $eco = ($_SESSION["ecogreen"]);
+  $credit = ($_SESSION["credit_point"]);
+}
 ?>
+
 <style type="text/css">
         {
             margin: 0;
@@ -234,8 +245,7 @@ include("include/config.php");
 
 <div class="table-responsive">          
     <?php
-        $userid = $_SESSION["UID"];
-        $sql = "SELECT * FROM orders WHERE user_id LIKE '%$userid%' ORDER BY order_datetime DESC";
+        $sql = "SELECT * FROM orders WHERE user_id LIKE '%$cust_id%' ORDER BY order_datetime DESC";
         $result = mysqli_query($conn, $sql);
                             
         if (mysqli_num_rows($result)> 0) {
@@ -281,6 +291,7 @@ include("include/config.php");
             <!--Card content-->
             <form method="post" action="selectorder.php">
             <input type="hidden" id="orderId" name="orderId" value=<?php echo $row["order_id"]; ?>>
+			<input type="hidden" id="orderStatus" name="orderStatus" value=<?php echo $row["order_status"]; ?>>
             <input type="submit" value="Select Order"></input>
             </form>
 
@@ -298,7 +309,7 @@ include("include/config.php");
                         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
                               <h2><b>Payment Page</b></h2>
                                 <div class="login-form">
-                                  <form enctype=multipart/form-data action="make_payment.php" method="POST" \>
+                                  <form enctype=multipart/form-data action="order_payment.php" method="POST" \>
                                       <input type="hidden" id="orderId" name="orderId" value=<?php echo $row["order_id"]; ?>>
                                       <label for="" style="font-size:22px;">Receipt:</label>
                                       <input type="file"  id="receipt" name="receipt" class="form-control">

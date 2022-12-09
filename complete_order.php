@@ -1,3 +1,4 @@
+<!-- This page is for update data page for ordered food when complete payment -->
 <?php
 session_start();
 include("include/config.php");
@@ -161,8 +162,8 @@ if(isset($_SESSION["cart_item"])){
               </div>
         <?php
           if ($file == ""){
-            $sql4="UPDATE orders SET order_status = '2' WHERE order_id LIKE '%$orderid%'";
-            if (mysqli_query($conn, $sql4)) {
+            $sql="UPDATE orders SET order_status = '2' WHERE order_id LIKE '%$orderid%'";
+            if (mysqli_query($conn, $sql)) {
               unset($_SESSION["cart_item"]);//unset cart
               echo "We are no received the receipt yet.\nPlease make payment as soon as possible.";
               //echo "<script>alert('Food has been added in to the cart');</script>";  
@@ -173,6 +174,8 @@ if(isset($_SESSION["cart_item"])){
             }
           }
           else{
+            $sql2="UPDATE orders SET receipt_img = '$file' WHERE order_id LIKE '%$orderid%'";
+            mysqli_query($conn,$sql2);
             $sql3="UPDATE orders SET order_status = '1' WHERE order_id LIKE '%$orderid%'";
             if (mysqli_query($conn, $sql3)) {
               unset($_SESSION["cart_item"]);//unset cart

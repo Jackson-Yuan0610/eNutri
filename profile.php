@@ -296,7 +296,8 @@ include("include/config.php");
 					</div>
 					
 					<div class="form-group mb-3">
-					<a href="credit.php"><button class="btn btn-primary"> Top Up </button></a>
+					<a href="topup.php"><button class="btn btn-primary"> Top Up </button></a>
+					<a href="credit.php"><button class="btn btn-primary"> Cash Out</button></a>
 					</div>
 				</div>
 			</div>

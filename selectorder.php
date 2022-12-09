@@ -3,8 +3,111 @@ session_start();
 include("include/config.php");
 
 $order = $_POST["orderId"];
+$status = $_POST["orderStatus"];
 ?>
-
+<style type="text/css">
+        {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: poppins;
+            text-decoration: none;
+            list-style: none
+        }
+        .wrapper label{
+            background: #33B2FF;
+            border-radius: 50px;
+            color: #fff;
+            font-size: 15px;
+            padding: 10px 20px;            
+        }
+        #chkBox{
+            display: none;
+        }
+        .mainContnt{
+            width: 100%;
+            height: 100%;
+            display: -webkit-flex;
+            display: -moz-flex;
+            display: -ms-flex;
+            display: -o-flex;
+            display: flex;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.7s;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 300;
+            background: rgba(0,0,0,0.8);
+            
+        }
+        .box{
+            background-image: url(https://images.pexels.com/photos/1938032/pexels-photo-1938032.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500);
+            width: 60%;
+            height: 72%;
+            transform: translateY(-1000px);
+            transition: all 1s;
+            margin: auto;
+        }
+        .bx{
+			max-width: 100%;
+            height: auto;
+            -webkit-background-size: cover;
+            background-size: cover;
+            background-repeat: no-repeat;;
+        }
+		.bx1{
+			max-width: 100%;
+            height: auto;
+            -webkit-background-size: cover;
+            background-size: cover;
+            background-repeat: no-repeat;;
+			
+        }
+        .bx2{
+			max-width: 100%;
+            height: auto;
+        }
+        .bx2 h3 {
+			margin-bottom: 16px;
+			text-transform: uppercase;
+		}
+        .login-form input {
+			width: 50%;
+			height: 50px;
+			padding: 15px;
+			background-size: 80%;
+			margin-bottom: 25px;
+		}
+        .login-form input[type="submit"] {
+			background: deepskyblue;
+			font-size: 25px;
+			text-transform: uppercase;
+			line-height: 20px;
+			color: #fff;
+		}
+        
+        .close-box{
+            position: relative;
+            text-align: right;
+            color: #262626;
+            font-weight: bold;
+            margin: auto;
+        }
+        .box-close {
+			position: absolute;
+			top: -580px;
+			right: 30px;
+		}
+        #chkBox:checked + .mainContnt{
+            visibility: visible;
+            opacity: 1;
+        }
+        #chkBox:checked + .mainContnt .box{
+            transform: translateY(0);
+        }
+</style>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -134,37 +237,88 @@ $order = $_POST["orderId"];
                   if (mysqli_num_rows($result)> 0) {
                       //output data of each row
                       while($row = mysqli_fetch_assoc($result)) {
-              ?>
-              <table class="table table-bordered" style="align:center;width:100%">
-                  <tbody>
-                      <tr>
-                          <th colspan="1">ID</th>
-                          <th colspan="2">Child</th>
-                          <th colspan="1">Food ID</th>
-                          <th colspan="1">Amount</th>
-                          <th colspan="1">Eco Point</th>
-                          <th colspan="2">Calories (kCal)</th>
-                      </tr>
-                      <!--Orders Displayed -->
-                      <tr>
-                          <td colspan="1"><?php echo $row["line_id"]; ?></td>
-                          <td colspan="2"><?php echo $row["child_name"];?></td>
-                          <td colspan="1"><?php echo $row["food_id"];?></td>
-                          <td colspan="1"><?php echo $row["order_amount"]; ?></td>
-                          <td colspan="1"><?php echo $row["food_eco"]; ?></td>
-                          <td colspan="2"><?php echo $row["food_cal"]; ?></td>
-                      </tr>
-                      <!--/.Orders Displayed -->
-                  </tbody>
-              </table>
-              <?php
-                      }?>
-                        <!--Card content-->
-                        <form method="post" action="order.php">
-                        <input type="submit" value="Back"></input>
-                        </form>
-                  <?php
-                  }
+                      ?>
+                      <table class="table table-bordered" style="align:center;width:100%">
+                          <tbody>
+                              <tr>
+                                  <th colspan="1">ID</th>
+                                  <th colspan="2">Child</th>
+                                  <th colspan="1">Food ID</th>
+                                  <th colspan="1">Amount</th>
+                                  <th colspan="1">Eco Point</th>
+                                  <th colspan="2">Calories (kCal)</th>
+                              </tr>
+                              <!--Orders Displayed -->
+                              <tr>
+                                  <td colspan="1"><?php echo $row["line_id"]; ?></td>
+                                  <td colspan="2"><?php echo $row["child_name"];?></td>
+                                  <td colspan="1"><?php echo $row["food_id"];?></td>
+                                  <td colspan="1"><?php echo $row["order_amount"]; ?></td>
+                                  <td colspan="1"><?php echo $row["food_eco"]; ?></td>
+                                  <td colspan="2"><?php echo $row["food_cal"]; ?></td>
+                              </tr>
+                              <!--/.Orders Displayed -->
+                          </tbody>
+                      </table>
+                      <?php
+                              }?>
+                                <!--Card content-->
+                                <form method="post" action="order.php">
+                                <input type="submit" value="Back"></input>
+                                </form>
+                        <?php
+                        if($status == "2"){?>
+                        <!-- Wrapper -->        
+                        <div class="wrapper">
+                        <div class="btn-area">
+                            <label for="chkBox">Continue Payment</label>
+                        </div>
+                        </div>
+                        <input type="checkbox" name="" id="chkBox">
+                        <div class="mainContnt">
+                            <div class="box">
+                              <div class="boxes bx1">
+                                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+                                      <h2><b>Payment Page</b></h2>
+                                        <div class="login-form">
+                                          <form enctype=multipart/form-data action="order_payment.php" method="POST" \>
+                                              <input type="hidden" id="orderId" name="orderId" value=<?php echo $order; ?>>
+                                              <label for="" style="font-size:22px;">Receipt:</label>
+                                              <input type="file"  id="receipt" name="receipt" class="form-control">
+                                              <input type="submit" value="Complete Payment">
+                                          </form>
+                                        </div>
+                                <div class="boxes bx2">
+                                  <?php
+                                    $sql = "SELECT * FROM paymethod";
+                                    $res = mysqli_query($conn, $sql);
+                                    if (mysqli_num_rows($res)> 0) {
+                                    //output data of each row
+                                    while($row = mysqli_fetch_assoc($res)) {
+                                      ?>
+                                      <img src="<?php echo htmlentities($row['method_img']); ?>" style="width:22%"></img>
+                                      <?php
+                                      }
+                                    }
+                                    else{
+                                      echo "<br>";
+                                      echo" Sorry, No payment method is provided";
+                                      }
+                                      mysqli_close($conn);	
+                                  ?>
+                                </div>
+                                  <div class="close-box">
+                                    <label for="chkBox" class="box-close">X Close</label>
+                                  </div>
+                              </div> 
+                            </div>
+                        </div>
+                        <!-- Wrapper -->        
+                        <?php
+                        }?>
+                        
+                <?php
+                }
                   else{
                           echo"Sorry, 0 order found";
                           ?>                      

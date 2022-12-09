@@ -238,7 +238,7 @@ include("include/config.php");
 		<a button type="button" style="margin: 25px;" class="btn btn-primary" class="nav-link waves-effect" href="credit.php"><i class="fas fa-chevron-circle-right"></i> My Credit </a>
 		<a button type="button" style="margin: 25px;" class="btn btn-primary" class="nav-link waves-effect" href="reward.php"><i class="fas fa-chevron-circle-right"></i> Reward </a>
 		<a button type="button" style="margin: 25px;" class="btn btn-primary" class="nav-link waves-effect" href="review.php"><i class="fas fa-chevron-circle-right"></i> Review </a>
-		<a button type="button" style="margin: 25px;" class="btn btn-primary" class="nav-link waves-effect" href="cart.php"><i class="fas fa-chevron-circle-right"></i> Cart </a>
+		<a button type="button" style="margin: 25px;" class="btn btn-primary" class="nav-link waves-effect" href="cart_action.php"><i class="fas fa-chevron-circle-right"></i> Cart </a>
 		
 </section>
 
